@@ -1,3 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%!
+public static int ordinalIndexOf(String str, String substr, int n) {
+    int pos = str.indexOf(substr);
+    while (--n > 0 && pos != -1)
+        pos = str.indexOf(substr, pos + 1);
+    return pos;
+}
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -16,16 +25,27 @@
   </div>
 
 
+<%
+String name = request.getParameter("name");
+int position_3rd = ordinalIndexOf(name, ".", 3);
+int position_2nd = ordinalIndexOf(name, ".", 2);
+
+String name_left = name.substring(0, position_3rd);
+String name_right = name.substring(position_3rd+1);
+String name_mp3 = name_left+".mp3";
+String name_dir = name.substring(0, position_2nd);
+
+
+// System.out.println("name_left: " + name_left);
+// System.out.println("name_right: " + name_right);
+// System.out.println("name_mp3: " + name_mp3);
+// System.out.println("name_dir: " + name_dir);
+%>
+
   <div data-role="main" class="ui-content">
-	<h3>2.1.1 네 가지 진리</h3>
-<!-- 	<a href="#pagetwo" class="ui-btn">LISTEN 듣기</a></br> -->
-	
-<!-- 	<audio controls loop> -->
-<!-- 		<source src="/mp3/2.1/2.1.1.mp3" type="audio/mpeg"> -->
-<!-- 		Your browser does not support the audio element. -->
-<!-- 	</audio> -->
-	
-	<audio src="./mp3/2.1/2.1.1.mp3" controls="controls">
+	<h3><%=name_left%> <%=name_right%></h3>
+
+	<audio src="./mp3/<%=name_dir%>/<%=name_mp3%>" controls="controls">
 		Your browser does not support the audio element.
 	</audio>
 
@@ -44,7 +64,7 @@
   </div>
   
 
-  <div data-role="footer">
+  <div data-role="footer" data-position="fixed">
     <h1 id="footer_text">동국대학교 역경원</h1>
   </div>
 </div> 

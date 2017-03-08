@@ -46,23 +46,23 @@ try{
 	while(rs.next()){
 		String name = rs.getString("name");
 %>
-	    <li><a href="content.jsp"><%=name%></a></li>
+	    <li><a href="content.jsp?name=<%=name%>"><%=name%></a></li>
 <%
 	}
 }catch(Exception e){
 	e.printStackTrace();
-	out.println("member 테이블 호출에 실패했습니다.");
-}finally{                                                            // 쿼리가 성공 또는 실패에 상관없이 사용한 자원을 해제 한다.  (순서중요)
-	if(rs != null) try{rs.close();}catch(SQLException sqle){}            // Resultset 객체 해제
-	if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}   // PreparedStatement 객체 해제
-	if(conn != null) try{conn.close();}catch(SQLException sqle){}   // Connection 해제
+	out.println("테이블 호출에 실패했습니다.");
+}finally{                                                            	// 쿼리가 성공 또는 실패에 상관없이 사용한 자원을 해제 한다.  (순서중요)
+	if(rs != null) try{rs.close();}catch(SQLException sqle){}        	// Resultset 객체 해제
+	if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}  	// PreparedStatement 객체 해제
+	if(conn != null) try{conn.close();}catch(SQLException sqle){}   	// Connection 해제
 }
 %>
 
     </ul>
   </div>
 
-  <div data-role="footer">
+  <div data-role="footer" data-position="fixed">
     <h1 id="footer_text">동국대학교 역경원</h1>
   </div>
 </div> 
