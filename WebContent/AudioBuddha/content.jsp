@@ -56,9 +56,9 @@ String name_dir = name.substring(0, position_2nd);
 	</br>
 	MP3 파일은 http://cafe.naver.com/audiobuddha에서 PC로 다운로드 받으실 수도 있습니다.</br>
 	<div data-role="controlgroup">
-	  <a href="#" class="ui-btn">동국대 역경원</a>
-	  <a href="#" class="ui-btn">불교성전 도서 안내</a>
-	  <a href="#" class="ui-btn">오디오 붓다</a>
+	  <a href="http://www.tripitaka.or.kr" class="ui-btn">동국대 역경원</a>
+	  <a href="http://book.naver.com/bookdb/book_detail.nhn?bid=199219" class="ui-btn">불교성전 도서 안내</a>
+	  <a href="http://cafe.naver.com/audiobuddha" class="ui-btn">오디오 붓다</a>
 	</div>
 
   </div>
