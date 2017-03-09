@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import = "java.sql.*" %>
+
 <%!
 public static int ordinalIndexOf(String str, String substr, int n) {
     int pos = str.indexOf(substr);
@@ -24,29 +26,61 @@ public static int ordinalIndexOf(String str, String substr, int n) {
     <h1 id="header_text">불교성전(제2편 초기경전)</h1>
   </div>
 
+	<%
+	String name = request.getParameter("name");
+	int position_3rd = ordinalIndexOf(name, ".", 3);
+	int position_2nd = ordinalIndexOf(name, ".", 2);
+	
+	String name_left = name.substring(0, position_3rd);
+	String name_right = name.substring(position_3rd+1);
+	String name_mp3 = name_left+".mp3";
+	String name_dir = name.substring(0, position_2nd);
+	%>
 
 <%
-String name = request.getParameter("name");
-int position_3rd = ordinalIndexOf(name, ".", 3);
-int position_2nd = ordinalIndexOf(name, ".", 2);
-
-String name_left = name.substring(0, position_3rd);
-String name_right = name.substring(position_3rd+1);
-String name_mp3 = name_left+".mp3";
-String name_dir = name.substring(0, position_2nd);
-
-
-// System.out.println("name_left: " + name_left);
-// System.out.println("name_right: " + name_right);
-// System.out.println("name_mp3: " + name_mp3);
-// System.out.println("name_dir: " + name_dir);
+String remote_addr = request.getRemoteAddr();
+String remote_host = request.getRemoteHost();
+String rlnclientipaddr = request.getHeader("rlnclientipaddr");
+String x_forwarded_for = request.getHeader("x-forwarded-for");
 %>
+
+<%
+Connection conn = null;
+PreparedStatement pstmt = null;
+
+try{
+	String url = "jdbc:mysql://localhost:3306/audiobuddha?autoReconnect=true&useSSL=false";
+	String id = "vegansoft";
+	String pw = "nkia123";
+	
+	Class.forName("com.mysql.jdbc.Driver");
+	conn=DriverManager.getConnection(url,id,pw);
+	
+	String sql = "insert into access_log (timestamp, remote_addr, remote_host, rlnclientipaddr, x_forwarded_for, page_id) values (now(), ?, ?, ?, ?, ?)";
+	pstmt = conn.prepareStatement(sql);
+	pstmt.setString(1,remote_addr);
+	pstmt.setString(2,remote_host);
+	pstmt.setString(3,rlnclientipaddr);
+	pstmt.setString(4,x_forwarded_for);
+	pstmt.setString(5,name_left);
+	
+	pstmt.executeUpdate();
+}catch(Exception e){
+	e.printStackTrace();
+	out.println("테이블 호출에 실패했습니다.");
+}finally{                                                            	// 쿼리가 성공 또는 실패에 상관없이 사용한 자원을 해제 한다.  (순서중요)
+	if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}  	// PreparedStatement 객체 해제
+	if(conn != null) try{conn.close();}catch(SQLException sqle){}   	// Connection 해제
+}
+
+%>
+
 
   <div data-role="main" class="ui-content">
 	<h3><%=name_left%> <%=name_right%></h3>
-
-	<audio src="./mp3/<%=name_dir%>/<%=name_mp3%>" controls="controls">
-		Your browser does not support the audio element.
+	<audio id="warp" preload="auto" controls loop>
+	    <source src="./mp3/<%=name_dir%>/<%=name_mp3%>" type="audio/mp3">
+	    Your browser does not support HTML5 audio element.
 	</audio>
 
 	</br></br>
@@ -60,10 +94,8 @@ String name_dir = name.substring(0, position_2nd);
 	  <a href="http://book.naver.com/bookdb/book_detail.nhn?bid=199219" class="ui-btn">불교성전 도서 안내</a>
 	  <a href="http://cafe.naver.com/audiobuddha" class="ui-btn">오디오 붓다</a>
 	</div>
-
   </div>
   
-
   <div data-role="footer" data-position="fixed">
     <h1 id="footer_text">동국대학교 역경원</h1>
   </div>

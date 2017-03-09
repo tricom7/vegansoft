@@ -37,7 +37,7 @@ try{
 	Class.forName("com.mysql.jdbc.Driver");
 	conn=DriverManager.getConnection(url,id,pw);
 	
-	String sql = "select * from list_sub where main_no = ?";
+	String sql = "select main_no, no, name from list_sub where main_no = ?";
 	pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1,main_no);
 	
