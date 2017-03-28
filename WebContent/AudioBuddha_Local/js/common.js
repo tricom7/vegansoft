@@ -13,15 +13,16 @@ var myObj = {
 	"a11": ["2.11.1.현자의 대론 제왕의 대론", "2.11.2.이름에 대한 문답", "2.11.3.나이에 대한 문답", "2.11.4.영혼에 대한 문답", "2.11.5.윤회에서 벗어남에 대한 문답", "2.11.6.지혜의 특징", "2.11.7.무아사상과 윤회", "2.11.8.명칭과 형태", "2.11.9.부처님의 실재", "2.11.10.부처님은 가장 높으신 분인가", "2.11.11.부처님의 증명", "2.11.12.출가한 자에게 육신은 소중한가", "2.11.13.계율은 어떻게 제정하였는가", "2.11.14.지혜가 있는 곳", "2.11.15.수행의 목적", "2.11.16.염불에 의한 구제", "2.11.17.모르고 짓는 악행", "2.11.18.해탈하면 지식은 없어지는가", "2.11.19.여러 가지 정신 작용", "2.11.20.업의 증명", "2.11.21.윤회의 주체", "2.11.22.사후의 시간", "2.11.23.열반의 즐거움", "2.11.24.해탈을 얻은 사람", "2.11.25.윤회란 무엇인가"]
 	};
 
-$(document).bind("pagebeforeshow",function(event, data) {
+$(document).bind("pagebeforeshow","#pagetwo",function(event) {
 		console.log("main_no = " + main_no);
 		if (main_no != 0) {
 			var ll = eval("myObj." + main_no);
 			x = "";
 			for (i in ll) {
-				x += "<li><a href='#' onclick=go_pagethree('" + ll[i] + "')>" + ll[i] + "</a></li>";
-				console.log("i = " + i);
+				x += "<li><a href=\"#\" onclick=go_pagethree(\"" + ll[i] + "\")>" + ll[i] + "</a></li>";
+				//console.log("i = " + i);
 			}
+			console.log(x);
 			document.getElementById("list_sub").innerHTML = x;
 			$("#list_sub").listview("refresh");
 		}
@@ -35,6 +36,7 @@ function go_pagetwo(arg_main_no) {
 
 function go_pagethree(arg_mp3_name) {
 	mp3_name = arg_mp3_name;
+	console.log("mp3_name --> " + mp3_name);
 	$.mobile.changePage( "#pagethree", { transition: "slide", changeHash: false });
 }
 
